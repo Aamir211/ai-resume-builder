@@ -1,0 +1,26 @@
+services:
+  backend:
+    build: .
+    container_name: ai-resume-backend
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/ai-resume-builder
+      - PORT=5001
+      - JWT_SECRET_KEY=secret
+      - JWT_SECRET_EXPIRES_IN=1d
+      - NODE_ENV=Dev
+      - ALLOWED_SITE=http://localhost:5173
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:4.4
+    container_name: ai-resume-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
